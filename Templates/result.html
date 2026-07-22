@@ -2,98 +2,306 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CareerAI Results</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CareerAI | Resume Report</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
 
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <h1>📄 CareerAI Resume Analysis</h1>
+    <!-- ===================================== -->
+    <!-- Header -->
+    <!-- ===================================== -->
 
-        <h2>Resume Score: {{ analysis.score }}/100</h2>
+    <section class="card">
 
-        <hr>
+        <h1>📄 CareerAI Analysis Report</h1>
 
-        <h3>📧 Contact Information</h3>
+        <p class="subtitle">
 
-        <ul>
+            ATS Resume Evaluation & Job Description Matching
 
-            <li>
-                Email:
-                {% if analysis.email_found %}
-                    ✅ Found
-                {% else %}
-                    ❌ Missing
-                {% endif %}
-            </li>
+        </p>
 
-            <li>
-                Phone:
-                {% if analysis.phone_found %}
-                    ✅ Found
-                {% else %}
-                    ❌ Missing
-                {% endif %}
-            </li>
+    </section>
 
-            <li>
-                LinkedIn:
-                {% if analysis.linkedin_found %}
-                    ✅ Found
-                {% else %}
-                    ❌ Missing
-                {% endif %}
-            </li>
+    <!-- ===================================== -->
+    <!-- Dashboard -->
+    <!-- ===================================== -->
 
-            <li>
-                GitHub:
-                {% if analysis.github_found %}
-                    ✅ Found
-                {% else %}
-                    ❌ Missing
-                {% endif %}
-            </li>
+    <div class="grid">
 
-        </ul>
+        <!-- Resume Score -->
 
-        <hr>
+        <section class="card">
 
-        <h3>💻 Detected Skills</h3>
+            <h2>📊 ATS Resume Score</h2>
 
-        {% if analysis.detected_skills %}
+            <h1
+                class="score"
+                style="color:{{ analysis.health.color }};">
 
-            <ul>
+                {{ analysis.score }}/100
+
+            </h1>
+
+            <h3
+                style="text-align:center;color:{{ analysis.health.color }};">
+
+                {{ analysis.health.label }}
+
+            </h3>
+
+            <div class="progress">
+
+                <div
+                    class="progress-fill"
+                    style="
+                        width:{{ analysis.score }}%;
+                        background:{{ analysis.health.color }};
+                    ">
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Job Match -->
+
+        <section class="card">
+
+            <h2>🎯 Job Match Score</h2>
+
+            {% if match_result.match_percentage is none %}
+
+                <p>
+
+                    No recognizable technical skills
+                    were detected in the Job Description.
+
+                </p>
+
+            {% else %}
+
+                <h1
+                    class="score"
+                    style="color:#2563eb;">
+
+                    {{ match_result.match_percentage }}%
+
+                </h1>
+
+                <div class="progress">
+
+                    <div
+                        class="progress-fill"
+                        style="
+                            width:{{ match_result.match_percentage }}%;
+                            background:#2563eb;
+                        ">
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Contact Information -->
+    <!-- ===================================== -->
+
+    <section class="card">
+
+        <h2>📞 Contact Information</h2>
+
+        <div class="grid">
+
+            <div class="status">
+                <strong>📧 Email</strong>
+                <span>
+                    {{ "✅ Found" if analysis.email_found else "❌ Missing" }}
+                </span>
+            </div>
+
+            <div class="status">
+                <strong>📱 Phone</strong>
+                <span>
+                    {{ "✅ Found" if analysis.phone_found else "❌ Missing" }}
+                </span>
+            </div>
+
+            <div class="status">
+                <strong>💼 LinkedIn</strong>
+                <span>
+                    {{ "✅ Found" if analysis.linkedin_found else "❌ Missing" }}
+                </span>
+            </div>
+
+            <div class="status">
+                <strong>🐙 GitHub</strong>
+                <span>
+                    {{ "✅ Found" if analysis.github_found else "❌ Missing" }}
+                </span>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ===================================== -->
+    <!-- Skills -->
+    <!-- ===================================== -->
+
+    <div class="grid">
+
+        <!-- Detected Skills -->
+
+        <section class="card">
+
+            <h2>💻 Detected Skills</h2>
+
+            {% if analysis.detected_skills %}
 
                 {% for skill in analysis.detected_skills %}
 
-                    <li>{{ skill.title() }}</li>
+                    <span class="badge">
+
+                        {{ skill.title() }}
+
+                    </span>
 
                 {% endfor %}
 
-            </ul>
+            {% else %}
 
-        {% else %}
+                <p>No skills detected.</p>
 
-            <p>No skills detected.</p>
+            {% endif %}
 
-        {% endif %}
+        </section>
 
-        <hr>
+        <!-- Missing Skills -->
 
-        <h3>📚 Missing Skills</h3>
+        <section class="card">
 
-        {% if analysis.missing_skills %}
+            <h2>📚 Missing Skills</h2>
+
+            {% if analysis.missing_skills %}
+
+                {% for skill in analysis.missing_skills[:20] %}
+
+                    <span class="badge missing">
+
+                        {{ skill.title() }}
+
+                    </span>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>🎉 None</p>
+
+            {% endif %}
+
+        </section>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Job Match Details -->
+    <!-- ===================================== -->
+
+    <section class="card">
+
+        <h2>🎯 Job Description Comparison</h2>
+
+        <div class="grid">
+
+            <div>
+
+                <h3>✅ Matching Skills</h3>
+
+                {% if match_result.matched_skills %}
+
+                    {% for skill in match_result.matched_skills %}
+
+                        <span class="badge">
+
+                            {{ skill }}
+
+                        </span>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <p>No matching skills.</p>
+
+                {% endif %}
+
+            </div>
+
+            <div>
+
+                <h3>❌ Missing Job Skills</h3>
+
+                {% if match_result.missing_skills %}
+
+                    {% for skill in match_result.missing_skills %}
+
+                        <span class="badge missing">
+
+                            {{ skill }}
+
+                        </span>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <p>🎉 None</p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ===================================== -->
+    <!-- Suggestions -->
+    <!-- ===================================== -->
+
+    <section class="card">
+
+        <h2>💡 Resume Suggestions</h2>
+
+        {% if analysis.suggestions %}
 
             <ul>
 
-                {% for skill in analysis.missing_skills %}
+                {% for suggestion in analysis.suggestions %}
 
-                    <li>{{ skill.title() }}</li>
+                    <li>
+
+                        {{ suggestion }}
+
+                    </li>
 
                 {% endfor %}
 
@@ -101,13 +309,23 @@
 
         {% else %}
 
-            <p>No missing skills.</p>
+            <p>
+
+                🎉 Excellent! Your resume looks ATS friendly.
+
+            </p>
 
         {% endif %}
 
-        <hr>
+    </section>
 
-        <h3>📨 Email Addresses Found</h3>
+    <!-- ===================================== -->
+    <!-- Emails -->
+    <!-- ===================================== -->
+
+    <section class="card">
+
+        <h2>📧 Email Addresses Found</h2>
 
         {% if analysis.emails %}
 
@@ -123,39 +341,41 @@
 
         {% else %}
 
-            <p>No email address found.</p>
+            <p>No email addresses detected.</p>
 
         {% endif %}
 
-        <hr>
+    </section>
 
-        <h3>💡 Suggestions</h3>
+    <!-- ===================================== -->
+    <!-- Action Buttons -->
+    <!-- ===================================== -->
 
-        {% if analysis.suggestions %}
-
-            <ul>
-
-                {% for suggestion in analysis.suggestions %}
-
-                    <li>{{ suggestion }}</li>
-
-                {% endfor %}
-
-            </ul>
-
-        {% else %}
-
-            <p>🎉 Excellent! Your resume looks complete.</p>
-
-        {% endif %}
-
-        <br><br>
+    <section class="card">
 
         <a href="/">
-            <button>Analyze Another Resume</button>
+
+            <button>
+
+                🔄 Analyze Another Resume
+
+            </button>
+
         </a>
 
+    </section>
+
+    <!-- ===================================== -->
+    <!-- Footer -->
+    <!-- ===================================== -->
+
+    <div class="footer">
+
+        CareerAI v1.1 • Built with ❤️ using Python, Flask, HTML, CSS & Regex
+
     </div>
+
+</div>
 
 </body>
 

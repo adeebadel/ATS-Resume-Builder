@@ -1,29 +1,229 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>CareerAI</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CareerAI | AI Resume Analyzer</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
 
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <h1>CareerAI</h1>
+    <!-- ==========================================
+        Hero Section
+    =========================================== -->
 
-        <p>Upload your resume below.</p>
+    <section class="card">
 
-        <form action="/upload" method="POST" enctype="multipart/form-data">
+        <h1>🚀 CareerAI</h1>
 
-            <input type="file" name="resume" required>
+        <p class="subtitle">
 
-            <br><br>
+            Analyze your resume, compare it with a Job Description,
+            discover missing skills, improve your ATS score,
+            and prepare for your next interview.
 
-            <button type="submit">Upload Resume</button>
+        </p>
+
+    </section>
+
+    <!-- ==========================================
+        Upload Form
+    =========================================== -->
+
+    <section class="card">
+
+        <h2>📄 Resume Analysis</h2>
+
+        <form
+            action="{{ url_for('upload') }}"
+            method="POST"
+            enctype="multipart/form-data">
+
+            <label for="resume">
+
+                Upload Resume (PDF / DOCX)
+
+            </label>
+
+            <input
+                id="resume"
+                type="file"
+                name="resume"
+                accept=".pdf,.docx"
+                required>
+
+            <small>
+
+                Supported formats:
+                PDF and DOCX (Maximum size: 5 MB)
+
+            </small>
+
+            <label for="job_description">
+
+                Paste Job Description
+
+            </label>
+
+            <textarea
+                id="job_description"
+                name="job_description"
+                placeholder="Paste the complete job description here..."
+                required></textarea>
+
+            <button type="submit">
+
+                🚀 Analyze Resume
+
+            </button>
 
         </form>
 
+    </section>
+
+    <!-- ==========================================
+        Features
+    =========================================== -->
+
+    <section class="card">
+
+        <h2>✨ What CareerAI Analyzes</h2>
+
+        <div class="grid">
+
+            <div class="status">
+                <strong>📊 ATS Resume Score</strong>
+            </div>
+
+            <div class="status">
+                <strong>🎯 Job Description Match</strong>
+            </div>
+
+            <div class="status">
+                <strong>💻 Technical Skills</strong>
+            </div>
+
+            <div class="status">
+                <strong>❌ Missing Skills</strong>
+            </div>
+
+            <div class="status">
+                <strong>📧 Contact Information</strong>
+            </div>
+
+            <div class="status">
+                <strong>💡 Resume Suggestions</strong>
+            </div>
+
+            <div class="status">
+                <strong>❤️ Resume Health</strong>
+            </div>
+
+            <div class="status">
+                <strong>⚡ ATS Optimization</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ==========================================
+        Workflow
+    =========================================== -->
+
+    <section class="card">
+
+        <h2>⚙️ How It Works</h2>
+
+        <ul>
+
+            <li>📄 Upload your Resume.</li>
+
+            <li>💼 Paste the Job Description.</li>
+
+            <li>🔍 CareerAI extracts technical skills.</li>
+
+            <li>📊 Calculates your ATS Resume Score.</li>
+
+            <li>🎯 Compares your resume with the Job Description.</li>
+
+            <li>💡 Suggests improvements to increase your interview chances.</li>
+
+        </ul>
+
+    </section>
+
+    <!-- ==========================================
+        Tech Stack
+    =========================================== -->
+
+    <section class="card">
+
+        <h2>🛠 Tech Stack</h2>
+
+        <span class="badge">Python</span>
+        <span class="badge">Flask</span>
+        <span class="badge">HTML5</span>
+        <span class="badge">CSS3</span>
+        <span class="badge">Regex</span>
+        <span class="badge">Jinja2</span>
+        <span class="badge">PDF Parsing</span>
+        <span class="badge">ATS Matching</span>
+
+    </section>
+
+    <!-- ==========================================
+        Future Features
+    =========================================== -->
+
+    <section class="card">
+
+        <h2>🚀 Coming Soon</h2>
+
+        <ul>
+
+            <li>🤖 AI Resume Coach</li>
+
+            <li>✍️ Resume Bullet Rewriter</li>
+
+            <li>📄 Export PDF Report</li>
+
+            <li>📈 Resume History Dashboard</li>
+
+            <li>🔐 User Login System</li>
+
+            <li>☁️ Cloud Deployment</li>
+
+        </ul>
+
+    </section>
+
+    <!-- ==========================================
+        Footer
+    =========================================== -->
+
+    <div class="footer">
+
+        <p>
+
+            CareerAI v1.1 • Built with ❤️ using Python, Flask, HTML & CSS
+
+        </p>
+
     </div>
 
+</div>
+
 </body>
+
 </html>

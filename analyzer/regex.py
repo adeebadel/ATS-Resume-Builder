@@ -1,7 +1,54 @@
-EMAIL_PATTERN = r"\S+@\S+\.\S+"
+"""
+CareerAI Regex Patterns
+-----------------------
+Centralized regular expressions used throughout
+the application.
+"""
 
-PHONE_PATTERN = r"(\+?\d[\d\s-]{8,}\d)"
+# ==========================================
+# Email
+# ==========================================
 
-LINKEDIN_PATTERN = r"linkedin\.com"
+EMAIL_PATTERN = (
+    r"\b[a-zA-Z0-9._%+-]+@"
+    r"[a-zA-Z0-9.-]+\.[A-Za-z]{2,}\b"
+)
 
-GITHUB_PATTERN = r"github\.com"
+# ==========================================
+# Phone Number
+#
+# Supports:
+# +91 9876543210
+# +91-9876543210
+# 9876543210
+# 98765 43210
+# 98765-43210
+# ==========================================
+
+PHONE_PATTERN = (
+    r"\b(?:\+?\d{1,3}[- ]?)?"
+    r"(?:\d{5}[- ]?\d{5}|\d{10})\b"
+)
+
+# ==========================================
+# LinkedIn Profile
+# ==========================================
+
+LINKEDIN_PATTERN = (
+    r"(?:https?://)?"
+    r"(?:www\.)?"
+    r"linkedin\.com/"
+    r"(?:in|company)/"
+    r"[A-Za-z0-9_-]+/?"
+)
+
+# ==========================================
+# GitHub Profile
+# ==========================================
+
+GITHUB_PATTERN = (
+    r"(?:https?://)?"
+    r"(?:www\.)?"
+    r"github\.com/"
+    r"[A-Za-z0-9_-]+/?"
+)
