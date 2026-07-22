@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CareerAI Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>CareerAI Resume Analysis</h1>
+
+    <h2>Resume Score: {{ score }}/100</h2>
+
+    <hr>
+
+    <h3>📧 Email</h3>
+
+    {% if emails %}
+        <ul>
+        {% for email in emails %}
+            <li>{{ email }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No email detected.</p>
+    {% endif %}
+
+    <h3>📞 Phone</h3>
+
+    {% if phone_found %}
+        <p>✅ Phone number detected</p>
+    {% else %}
+        <p>❌ Phone number not detected</p>
+    {% endif %}
+
+    <h3>💼 LinkedIn</h3>
+
+    {% if linkedin_found %}
+        <p>✅ LinkedIn profile detected</p>
+    {% else %}
+        <p>❌ LinkedIn profile not detected</p>
+    {% endif %}
+
+    <h3>💻 GitHub</h3>
+
+    {% if github_found %}
+        <p>✅ GitHub profile detected</p>
+    {% else %}
+        <p>❌ GitHub profile not detected</p>
+    {% endif %}
+
+    <hr>
+
+    <h3>Detected Skills</h3>
+
+    {% if detected_skills %}
+        <ul>
+        {% for skill in detected_skills %}
+            <li>{{ skill.title() }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No skills detected.</p>
+    {% endif %}
+
+    <h3>Missing Skills</h3>
+
+    {% if missing_skills %}
+        <ul>
+        {% for skill in missing_skills %}
+            <li>{{ skill.title() }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No missing skills.</p>
+    {% endif %}
+
+    <hr>
+
+    <h3>Suggestions</h3>
+
+    {% if suggestions %}
+        <ul>
+        {% for suggestion in suggestions %}
+            <li>{{ suggestion }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>🎉 Excellent! Your resume looks complete.</p>
+    {% endif %}
+
+    <br>
+
+    <a href="/">
+        <button>Upload Another Resume</button>
+    </a>
+
+</div>
+
+</body>
+</html>
