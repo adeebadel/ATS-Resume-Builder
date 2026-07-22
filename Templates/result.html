@@ -1,104 +1,162 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CareerAI Results</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <h1>CareerAI Resume Analysis</h1>
+        <h1>📄 CareerAI Resume Analysis</h1>
 
-    <h2>Resume Score: {{ score }}/100</h2>
+        <h2>Resume Score: {{ analysis.score }}/100</h2>
 
-    <hr>
+        <hr>
 
-    <h3>📧 Email</h3>
+        <h3>📧 Contact Information</h3>
 
-    {% if emails %}
         <ul>
-        {% for email in emails %}
-            <li>{{ email }}</li>
-        {% endfor %}
+
+            <li>
+                Email:
+                {% if analysis.email_found %}
+                    ✅ Found
+                {% else %}
+                    ❌ Missing
+                {% endif %}
+            </li>
+
+            <li>
+                Phone:
+                {% if analysis.phone_found %}
+                    ✅ Found
+                {% else %}
+                    ❌ Missing
+                {% endif %}
+            </li>
+
+            <li>
+                LinkedIn:
+                {% if analysis.linkedin_found %}
+                    ✅ Found
+                {% else %}
+                    ❌ Missing
+                {% endif %}
+            </li>
+
+            <li>
+                GitHub:
+                {% if analysis.github_found %}
+                    ✅ Found
+                {% else %}
+                    ❌ Missing
+                {% endif %}
+            </li>
+
         </ul>
-    {% else %}
-        <p>No email detected.</p>
-    {% endif %}
 
-    <h3>📞 Phone</h3>
+        <hr>
 
-    {% if phone_found %}
-        <p>✅ Phone number detected</p>
-    {% else %}
-        <p>❌ Phone number not detected</p>
-    {% endif %}
+        <h3>💻 Detected Skills</h3>
 
-    <h3>💼 LinkedIn</h3>
+        {% if analysis.detected_skills %}
 
-    {% if linkedin_found %}
-        <p>✅ LinkedIn profile detected</p>
-    {% else %}
-        <p>❌ LinkedIn profile not detected</p>
-    {% endif %}
+            <ul>
 
-    <h3>💻 GitHub</h3>
+                {% for skill in analysis.detected_skills %}
 
-    {% if github_found %}
-        <p>✅ GitHub profile detected</p>
-    {% else %}
-        <p>❌ GitHub profile not detected</p>
-    {% endif %}
+                    <li>{{ skill.title() }}</li>
 
-    <hr>
+                {% endfor %}
 
-    <h3>Detected Skills</h3>
+            </ul>
 
-    {% if detected_skills %}
-        <ul>
-        {% for skill in detected_skills %}
-            <li>{{ skill.title() }}</li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>No skills detected.</p>
-    {% endif %}
+        {% else %}
 
-    <h3>Missing Skills</h3>
+            <p>No skills detected.</p>
 
-    {% if missing_skills %}
-        <ul>
-        {% for skill in missing_skills %}
-            <li>{{ skill.title() }}</li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>No missing skills.</p>
-    {% endif %}
+        {% endif %}
 
-    <hr>
+        <hr>
 
-    <h3>Suggestions</h3>
+        <h3>📚 Missing Skills</h3>
 
-    {% if suggestions %}
-        <ul>
-        {% for suggestion in suggestions %}
-            <li>{{ suggestion }}</li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>🎉 Excellent! Your resume looks complete.</p>
-    {% endif %}
+        {% if analysis.missing_skills %}
 
-    <br>
+            <ul>
 
-    <a href="/">
-        <button>Upload Another Resume</button>
-    </a>
+                {% for skill in analysis.missing_skills %}
 
-</div>
+                    <li>{{ skill.title() }}</li>
+
+                {% endfor %}
+
+            </ul>
+
+        {% else %}
+
+            <p>No missing skills.</p>
+
+        {% endif %}
+
+        <hr>
+
+        <h3>📨 Email Addresses Found</h3>
+
+        {% if analysis.emails %}
+
+            <ul>
+
+                {% for email in analysis.emails %}
+
+                    <li>{{ email }}</li>
+
+                {% endfor %}
+
+            </ul>
+
+        {% else %}
+
+            <p>No email address found.</p>
+
+        {% endif %}
+
+        <hr>
+
+        <h3>💡 Suggestions</h3>
+
+        {% if analysis.suggestions %}
+
+            <ul>
+
+                {% for suggestion in analysis.suggestions %}
+
+                    <li>{{ suggestion }}</li>
+
+                {% endfor %}
+
+            </ul>
+
+        {% else %}
+
+            <p>🎉 Excellent! Your resume looks complete.</p>
+
+        {% endif %}
+
+        <br><br>
+
+        <a href="/">
+            <button>Analyze Another Resume</button>
+        </a>
+
+    </div>
 
 </body>
+
 </html>

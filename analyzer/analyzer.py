@@ -1,5 +1,11 @@
 import re
 from analyzer.skills import COMMON_SKILLS
+from analyzer.regex import (
+    EMAIL_PATTERN,
+    PHONE_PATTERN,
+    LINKEDIN_PATTERN,
+    GITHUB_PATTERN
+)
 
 
 def analyze_resume(text):
@@ -13,13 +19,18 @@ def analyze_resume(text):
     # Contact Information
     # -----------------------------
 
-    emails = re.findall(r"\S+@\S+\.\S+", text)
+    emails = re.findall(EMAIL_PATTERN, text)
 
-    phone = re.search(r"(\+?\d[\d\s-]{8,}\d)", text)
+    phone_found = bool(
+    re.search(PHONE_PATTERN, text)
+    )
+    linkedin_found = bool(
+    re.search(LINKEDIN_PATTERN, text)
+    )
 
-    linkedin = "linkedin.com" in text
-
-    github = "github.com" in text
+    github_found = bool(
+    re.search(GITHUB_PATTERN, text)
+    )
 
     # -----------------------------
     # Skills Detection
@@ -29,10 +40,8 @@ def analyze_resume(text):
     missing_skills = []
 
     for skill in COMMON_SKILLS:
-
         if skill in text:
             detected_skills.append(skill)
-
         else:
             missing_skills.append(skill)
 
@@ -60,17 +69,17 @@ def analyze_resume(text):
     else:
         suggestions.append("Add a professional email address.")
 
-    if phone:
+    if phone_found:
         score += 10
     else:
         suggestions.append("Add your phone number.")
 
-    if linkedin:
+    if linkedin_found:
         score += 10
     else:
         suggestions.append("Add your LinkedIn profile.")
 
-    if github:
+    if github_found:
         score += 10
     else:
         suggestions.append("Add your GitHub profile.")
@@ -82,13 +91,16 @@ def analyze_resume(text):
 
     score = min(score, 100)
 
-    return (
-        score,
-        suggestions,
-        detected_skills,
-        missing_skills,
-        emails,
-        bool(phone),
-        linkedin,
-        github
-    )
+    analysis = {
+        "score": score,
+        "suggestions": suggestions,
+        "detected_skills": detected_skills,
+        "missing_skills": missing_skills,
+        "emails": emails,
+        "email_found": len(emails) > 0,
+        "phone_found": phone_found,
+        "linkedin_found": linkedin_found,
+        "github_found": github_found
+    }
+
+    return analysis

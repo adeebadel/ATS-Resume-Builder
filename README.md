@@ -67,3 +67,28 @@ python app.py
 - Database
 - Resume History
 - Cloud Deployment
+
+## Project Structure
+
+```text
+CareerAI
+│
+├── app.py
+├── config.py
+│
+├── analyzer
+│   ├── analyzer.py
+│   ├── regex.py
+│   ├── scorer.py
+│   ├── report.py
+│   └── skills.py
+│
+├── resume_parser
+│   └── parser.py
+│
+├── templates
+│
+├── static
+│
+└── tests
+```
